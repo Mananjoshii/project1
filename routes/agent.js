@@ -43,7 +43,7 @@ router.get("/dashboard", isAgentLoggedIn, (req, res) => {
   const agentPhone = req.session.agentPhone;
   const agentName = req.session.agentName;
 
-  const sweetsList = db.prepare(`SELECT * FROM sweets`).all();
+  const sweetsList = db.prepare(`SELECT * FROM sweets WHERE Active='Y'`).all();
   const bookingsList = db
     .prepare(`SELECT * FROM bookings WHERE AgentPhone=? AND Status='Active'`)
     .all(agentPhone);
