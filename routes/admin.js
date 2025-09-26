@@ -64,7 +64,7 @@ router.post("/sweets/:id/edit", isAdminLoggedIn, (req, res) => {
 // --- Delete sweet ---
 router.post("/sweets/:id/delete", isAdminLoggedIn, (req, res) => {
   const { id } = req.params;
-  db.prepare(`DELETE FROM sweets WHERE SweetID=?`).run(id);
+  db.prepare(`UPDATE sweets SET Active='N' WHERE SweetID=?`).run(id);
   res.redirect("/admin/dashboard");
 });
 
