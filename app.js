@@ -2,9 +2,11 @@ const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
 const session = require("express-session");
+require("dotenv").config();
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 5000;
+
 console.log("Starting app...");
 // --- Middleware ---
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -22,7 +24,7 @@ app.use(
   session({
     secret: "your_secret_key_here",
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
   })
 );
 

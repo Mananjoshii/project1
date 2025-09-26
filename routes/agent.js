@@ -6,6 +6,8 @@ const fs = require("fs");
 const { v4: uuidv4 } = require("uuid");
 const { normalizeName, normalizePhone } = require("../utils/normalize");
 
+const dataDir = path.resolve(__dirname, "data");
+
 // Middleware to check if agent is logged in
 function isAgentLoggedIn(req, res, next) {
   if (req.session.agentName && req.session.agentPhone) {
@@ -54,7 +56,7 @@ router.get("/dashboard", isAgentLoggedIn, (req, res) => {
   const sweetsList = XLSX.utils.sheet_to_json(sheet);
 
   // Load bookings.xlsx
-  const bookingsFile = path.join(__dirname, "../data/bookings.xlsx");
+  const bookingsFile = path.join(dataDir, "bookings.xlsx");
   let bookingsList = [];
   try {
     const bookingsWorkbook = XLSX.readFile(bookingsFile);
@@ -110,7 +112,7 @@ router.post("/book", isAgentLoggedIn, express.json(), (req, res) => {
     return res.status(400).send("Quantity must be a number >= 0");
   }
 
-  const bookingsFile = path.join(__dirname, "../data/bookings.xlsx");
+  const bookingsFile = path.join(dataDir, "bookings.xlsx");
   let bookingsList = [];
 
   try {
@@ -186,7 +188,7 @@ router.get("/bookings-qty", isAgentLoggedIn, (req, res) => {
   const sheet = workbook.Sheets[workbook.SheetNames[0]];
   const sweetsList = XLSX.utils.sheet_to_json(sheet);
 
-  const bookingsFile = path.join(__dirname, "../data/bookings.xlsx");
+  const bookingsFile = path.join(dataDir, "bookings.xlsx");
   let bookingsList = [];
   try {
     const wb = XLSX.readFile(bookingsFile);
@@ -213,7 +215,7 @@ router.get("/bookings-qty", isAgentLoggedIn, (req, res) => {
 });
 
 function getBookingsList() {
-  const bookingsFile = path.join(__dirname, "../data/bookings.xlsx");
+  const bookingsFile = path.join(dataDir, "bookings.xlsx");
   try {
     const wb = XLSX.readFile(bookingsFile);
     const sh = wb.Sheets[wb.SheetNames[0]];

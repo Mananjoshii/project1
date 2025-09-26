@@ -4,9 +4,10 @@ const path = require("path");
 const XLSX = require("xlsx");
 const bodyParser = require("body-parser");
 
-const sweetsFile = path.join(__dirname, "../data/sweets.xlsx");
-const bookingsFile = path.join(__dirname, "../data/bookings.xlsx");
+const dataDir = path.resolve(__dirname, "data");
 
+const sweetsFile = path.join(dataDir, "sweets.xlsx");
+const bookingsFile = path.join(dataDir, "bookings.xlsx");
 // Admin password (for MVP, simple env var)
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
 
@@ -166,7 +167,7 @@ router.post("/sweets/:id/delete", isAdminLoggedIn, (req, res) => {
 
 // --- View Bookings ---
 router.get("/bookings", isAdminLoggedIn, (req, res) => {
-  const bookingsFile = path.join(__dirname, "../data/bookings.xlsx");
+  const bookingsFile = path.join(dataDir, "bookings.xlsx");
   let bookingsList = [];
 
   try {
@@ -200,7 +201,7 @@ router.get("/bookings", isAdminLoggedIn, (req, res) => {
 router.post("/bookings/:id/update", isAdminLoggedIn, (req, res) => {
   const { id } = req.params;
   const { Quantity, Status } = req.body;
-  const bookingsFile = path.join(__dirname, "../data/bookings.xlsx");
+  const bookingsFile = path.join(dataDir, "bookings.xlsx");
 
   let bookingsList = [];
   try {
@@ -236,7 +237,7 @@ router.post(
   (req, res) => {
     const { BookingID, field, value } = req.body;
 
-    const bookingsFile = path.join(__dirname, "../data/bookings.xlsx");
+    const bookingsFile = path.join(dataDir, "bookings.xlsx");
     let bookingsList = [];
 
     try {
@@ -319,7 +320,7 @@ router.post("/update-booking/:id", (req, res) => {
 // Delete booking by ID
 router.post("/bookings/:id/delete", isAdminLoggedIn, (req, res) => {
   const { id } = req.params;
-  const bookingsFile = path.join(__dirname, "../data/bookings.xlsx");
+  const bookingsFile = path.join(dataDir, "bookings.xlsx");
 
   let bookingsList = [];
   try {
@@ -347,7 +348,7 @@ router.post(
   (req, res) => {
     const { BookingID, field, value } = req.body;
 
-    const bookingsFile = path.join(__dirname, "../data/bookings.xlsx");
+    const bookingsFile = path.join(dataDir, "bookings.xlsx");
     let bookingsList = [];
 
     try {
