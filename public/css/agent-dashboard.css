@@ -1,151 +1,117 @@
-/* agent-dashboard.css */
-
-/* Reset & basics */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
 body {
-  background: #f8f9fa;
-  color: #333;
-  line-height: 1.5;
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background-color: #f8f9fa;
 }
 
 .container {
-  max-width: 1200px;
-  margin: 2rem auto;
-  padding: 1rem;
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h1, h2 {
+  text-align: center;
+  color: #333;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.card {
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: transform 0.2s;
 }
 
-h1 {
-  font-size: 2rem;
-  color: #1e3a8a;
-  margin-bottom: 0.5rem;
-  text-align: center;
+.card:hover {
+  transform: translateY(-4px);
 }
 
-p {
-  text-align: center;
-  font-size: 1rem;
-  margin-bottom: 2rem;
+.card h3 {
+  margin: 0 0 10px;
+  color: #007bff;
+  font-size: 1.2rem;
+}
+
+.card p {
+  margin: 5px 0;
   color: #555;
+  font-size: 0.95rem;
 }
 
-h2 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  color: #111827;
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
 }
 
-/* Table styles */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 2rem;
-  overflow-x: auto;
-}
-
-thead {
-  background: #1e40af;
-  color: #fff;
-}
-
-thead th {
-  padding: 0.75rem 1rem;
-  text-align: left;
-  font-weight: 600;
-}
-
-tbody tr {
-  border-bottom: 1px solid #e5e7eb;
-}
-
-tbody tr:nth-child(even) {
-  background: #f1f5f9;
-}
-
-tbody td {
-  padding: 0.75rem 1rem;
+.actions label {
+  font-size: 0.9rem;
 }
 
 .quantity-input {
-  width: 80px;
-  padding: 0.3rem 0.5rem;
-  border-radius: 6px;
-  border: 1px solid #cbd5e1;
-  font-size: 1rem;
-  text-align: center;
+  padding: 6px;
+  width: 70px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 6px 12px;
+  background-color: #28a745;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+button:hover {
+  background-color: #218838;
 }
 
 .update-btn {
-  padding: 0.5rem 1rem;
-  border: none;
-  background: #2563eb;
-  color: #fff;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.2s ease;
+  background-color: #ffc107;
+  color: black;
 }
 
 .update-btn:hover {
-  background: #1e40af;
-  transform: translateY(-2px);
+  background-color: #e0a800;
 }
 
-/* Responsive styles */
-@media (max-width: 768px) {
-  .container {
-    padding: 0.5rem;
-    margin: 1rem;
+/* Mobile tweaks */
+@media (max-width: 480px) {
+  body {
+    margin: 10px;
   }
 
-  h1 {
-    font-size: 1.5rem;
+  .card h3 {
+    font-size: 1rem;
   }
 
-  h2 {
-    font-size: 1.25rem;
-  }
-
-  table, thead, tbody, th, td, tr {
-    display: block;
-  }
-
-  thead tr {
-    display: none;
-  }
-
-  tbody tr {
-    margin-bottom: 1rem;
-    border-bottom: 2px solid #e5e7eb;
-    padding: 0.5rem;
-  }
-
-  tbody td {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.5rem 0;
-  }
-
-  tbody td::before {
-    content: attr(data-label);
-    font-weight: 600;
-    color: #1e40af;
+  .card p {
+    font-size: 0.85rem;
   }
 
   .quantity-input {
     width: 60px;
   }
 
-  .update-btn {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.9rem;
+  button {
+    font-size: 0.8rem;
+    padding: 5px 10px;
   }
 }
