@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agent Dashboard - Sweets Shop</title>
+    <link rel="stylesheet" href="/css/agent-dashboard.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Welcome, <%= agentName %>!</h1>
+      <p>Phone: <%= agentPhone %></p>
+
+      <h2>Available Sweets</h2>
+<table border="1" cellpadding="5">
+  <thead>
+    <tr>
+      <th>Sweet Name</th>
+      <th>Price per Unit</th>
+      <th>Unit</th>
+      <th>Your Previous Booking</th>
+      <th>Quantity to Book/Modify</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% sweets.forEach(sweet => { %>
+    <tr>
+      <td><%= sweet.Name %></td>
+      <td><%= sweet.PricePerUnit %></td>
+      <td><%= sweet.Unit %></td>
+      <td><%= sweet.bookedQty %></td>
+      <td>
+        <form action="/agent/book" method="POST">
+          <input type="hidden" name="SweetID" value="<%= sweet.SweetID %>" />
+          <input
+            type="number"
+            name="Quantity"
+            min="0"
+            value="<%= sweet.bookedQty %>"
+            class="quantity-input"
+            required
+          />
+      </td>
+      <td>
+          <button type="submit">Update</button>
+        </form>
+      </td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>
+    </div>
+  </body>
+</html>
+<script>
+  const inputs = document.querySelectorAll(".quantity-input");
+
+  inputs.forEach((input) => {
+    input.addEventListener("change", async (e) => {
+      const sweetID = e.target.dataset.sweetid;
+      const quantity = e.target.value;
+      const customerName = prompt("Enter Customer Name:", "<%= agentName %>");
+      const customerPhone = prompt(
+        "Enter Customer Phone:",
+        "<%= agentPhone %>"
+      );
+
+      const response = await fetch("/agent/book", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          SweetID: sweetID,
+          Quantity: quantity,
+          CustomerName: customerName,
+          CustomerPhone: customerPhone,
+        }),
+      });
+
+      if (response.ok) {
+        alert("Booking updated!");
+      } else {
+        alert("Error updating booking");
+      }
+    });
+  });
+
+  // Optional: Polling every 5 seconds to refresh bookedQty
+  setInterval(async () => {
+    const res = await fetch("/agent/bookings-qty"); // new API route
+    const data = await res.json();
+    data.forEach((b) => {
+      const input = document.querySelector(
+        `.quantity-input[data-sweetid="${b.SweetID}"]`
+      );
+      if (input) input.value = b.bookedQty;
+    });
+  }, 5000);
+</script>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bookings Dashboard</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Bookings Dashboard</h1>
+
+    <h2>Filter Bookings</h2>
+    <form method="GET" action="/admin/bookings">
+      <label>Agent Phone:</label>
+      <input type="text" name="agentPhone" value="<%= agentPhone %>"/>
+      <label>Sweet Name:</label>
+      <input type="text" name="sweetName" value="<%= sweetName %>"/>
+      <button type="submit">Filter</button>
+    </form>
+
+    <h2>All Bookings</h2>
+    <table border="1" cellpadding="5">
+      <thead>
+        <tr>
+          <th>Booking ID</th>
+          <th>Agent Name</th>
+          <th>Agent Phone</th>
+          <th>Customer Name</th>
+          <th>Customer Phone</th>
+          <th>Sweet Name</th>
+          <th>Quantity</th>
+          <th>Price per Unit</th>
+          <th>Total Amount</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% bookings.forEach(b => { %>
+          <tr>
+            <td><%= b.BookingID %></td>
+            <td><%= b.AgentName %></td>
+            <td><%= b.AgentPhone %></td>
+            <td><%= b.CustomerName %></td>
+            <td><%= b.CustomerPhone %></td>
+            <td><%= b.SweetName %></td>
+            <td>
+              <form action="/admin/bookings/<%= b.BookingID %>/update" method="POST">
+                <input type="number" name="Quantity" value="<%= b.Quantity %>" required />
+            </td>
+            <td><%= b.PricePerUnit %></td>
+            <td><%= b.TotalAmount %></td>
+            <td>
+              <select name="Status">
+                <option value="Active" <%= b.Status === "Active" ? "selected" : "" %>>Active</option>
+                <option value="Cancelled" <%= b.Status === "Cancelled" ? "selected" : "" %>>Cancelled</option>
+              </select>
+            </td>
+            <td>
+                <button type="submit">Update</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

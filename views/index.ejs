@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agent Login - Sweets Shop</title>
+    <link rel="stylesheet" href="/css/index.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Welcome, Agent!</h1>
+      <p>Enter your details to access the dashboard:</p>
+
+      <% if (error) { %>
+      <p style="color: red"><%= error %></p>
+      <% } %>
+
+      <form action="/agent-login" method="POST">
+        <div>
+          <label for="agentName">Name:</label>
+          <input type="text" id="agentName" name="agentName" required />
+        </div>
+        <div>
+          <label for="agentPhone">Phone Number:</label>
+          <input type="text" id="agentPhone" name="agentPhone" required />
+        </div>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </body>
+</html>

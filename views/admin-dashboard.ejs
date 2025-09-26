@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard - Sweets Shop</title>
+  <link rel="stylesheet" href="/css/admin-dashboard.css" />
+</head>
+
+<body>
+  <div class="container">
+    <h1>Admin Dashboard</h1>
+
+    <h2>Sweets List</h2>
+    <table border="1" cellpadding="5">
+      <thead>
+        <tr>
+          <th>Sweet ID</th>
+          <th>Name</th>
+          <th>Price per Unit</th>
+          <th>Unit</th>
+          <th>Stock</th>
+          <th>Active</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% sweets.forEach(sweet=> { %>
+          <tr>
+            <td>
+              <%= sweet.SweetID %>
+            </td>
+            <td>
+              <%= sweet.Name %>
+            </td>
+            <td>
+              <%= sweet.PricePerUnit %>
+            </td>
+            <td>
+              <%= sweet.Unit %>
+            </td>
+            <td>
+              <%= sweet.Stock %>
+            </td>
+            <td>
+              <%= sweet.Active %>
+            </td>
+          </tr>
+          <% }) %>
+      </tbody>
+    </table>
+
+    <h2>Add New Sweet</h2>
+    <form action="/admin/sweets/add" method="POST">
+      <div>
+        <label for="SweetID">Sweet ID:</label>
+        <input type="text" name="SweetID" id="SweetID" required />
+      </div>
+      <div>
+        <label for="Name">Name:</label>
+        <input type="text" name="Name" id="Name" required />
+      </div>
+      <div>
+        <label for="PricePerUnit">Price per Unit:</label>
+        <input type="number" step="0.01" name="PricePerUnit" id="PricePerUnit" required />
+      </div>
+      <div>
+        <label for="Unit">Unit:</label>
+        <input type="text" name="Unit" id="Unit" required />
+      </div>
+      <button type="submit">Add Sweet</button>
+    </form>
+
+    <h2>Download Excel Files</h2>
+    <ul>
+      <li><a href="/admin/download/sweets">Download Sweets.xlsx</a></li>
+      <li><a href="/admin/download/bookings">Download Bookings.xlsx</a></li>
+      <li><a href="/admin/download/customers">Download Customers.xlsx</a></li>
+      <li><a href="/admin/download/agents">Download Agents.xlsx</a></li>
+      <li><a href="/admin/download/history">Download Bookings History.xlsx</a></li>
+    </ul>
+    <table border="1" cellpadding="5">
+      <thead>
+        <tr>
+          <th>Sweet ID</th>
+          <th>Name</th>
+          <th>Price per Unit</th>
+          <th>Unit</th>
+          <th>Stock</th>
+          <th>Active</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% sweets.forEach(sweet=> { %>
+          <tr>
+            <td>
+              <%= sweet.SweetID %>
+            </td>
+            <td>
+              <%= sweet.Name %>
+            </td>
+            <td>
+              <%= sweet.PricePerUnit %>
+            </td>
+            <td>
+              <%= sweet.Unit %>
+            </td>
+            <td>
+              <%= sweet.Stock %>
+            </td>
+            <td>
+              <%= sweet.Active %>
+            </td>
+            <td>
+              <!-- Edit Form -->
+              <form action="/admin/sweets/<%= sweet.SweetID %>/edit" method="POST" style="display:inline;">
+                <input type="text" name="Name" value="<%= sweet.Name %>" required />
+                <input type="number" step="0.01" name="PricePerUnit" value="<%= sweet.PricePerUnit %>" required />
+                <input type="text" name="Unit" value="<%= sweet.Unit %>" required />
+                <input type="number" name="Stock" value="<%= sweet.Stock %>" required />
+                <select name="Active">
+                  <option value="Y" <%=sweet.Active==="Y" ? "selected" : "" %>>Yes</option>
+                  <option value="N" <%=sweet.Active==="N" ? "selected" : "" %>>No</option>
+                </select>
+                <button type="submit">Update</button>
+              </form>
+
+              <!-- Delete Form -->
+              <form action="/admin/sweets/<%= sweet.SweetID %>/delete" method="POST" style="display:inline;">
+                <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+              </form>
+            </td>
+          </tr>
+          <% }) %>
+      </tbody>
+    </table>
+    <h2>Bookings</h2>
+    <table border="1" cellpadding="5" width="100%">
+      <thead>
+        <tr>
+          <th>Booking ID</th>
+          <th>Customer Name</th>
+          <th>Customer Phone</th>
+          <th>Agent Name</th>
+          <th>Agent Phone</th>
+          <th>Sweet Name</th>
+          <th>Quantity</th>
+          <th>Price per Unit</th>
+          <th>Total Amount</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% bookings.forEach(b=> { %>
+          <tr data-id="<%= b.BookingID %>">
+            <td>
+              <%= b.BookingID %>
+            </td>
+            <td contenteditable="true" data-field="CustomerName">
+              <%= b["CustomerName"] %>
+            </td>
+            <td contenteditable="true" data-field="CustomerPhone">
+              <%= b["CustomerPhone"] %>
+            </td>
+            <td contenteditable="true" data-field="AgentName">
+              <%= b["AgentName"] %>
+            </td>
+            <td contenteditable="true" data-field="AgentPhone">
+              <%= b["AgentPhone"] %>
+            </td>
+            <td contenteditable="true" data-field="SweetName">
+              <%= b["SweetName"] %>
+            </td>
+            <td contenteditable="true" data-field="Quantity">
+              <%= b.Quantity %>
+            </td>
+            <td>
+              <%= b["PricePerUnit"] %>
+            </td>
+            <td>
+              <%= b["TotalAmount"] %>
+            </td>
+            <td contenteditable="true" data-field="Status">
+              <%= b.Status %>
+            </td>
+            <td>
+              <button class="save-btn">💾 Save</button>
+              <form action="/admin/bookings/<%= b.BookingID %>/delete" method="POST" style="display:inline;">
+                <button type="submit" onclick="return confirm('Are you sure you want to delete this booking?')">🗑️
+                  Delete</button>
+              </form>
+            </td>
+          </tr>
+          <% }) %>
+      </tbody>
+    </table>
+
+  </div>
+</body>
+
+</html>
+<script>
+  document.querySelectorAll(".save-btn").forEach(btn => {
+    btn.addEventListener("click", async (e) => {
+      const row = e.target.closest("tr");
+      const BookingID = row.dataset.id;
+
+      const updatedBooking = {
+        "CustomerName": row.querySelector('[data-field="CustomerName"]').innerText,
+        "CustomerPhone": row.querySelector('[data-field="CustomerPhone"]').innerText,
+        "AgentName": row.querySelector('[data-field="AgentName"]').innerText,
+        "AgentPhone": row.querySelector('[data-field="AgentPhone"]').innerText,
+        "SweetName": row.querySelector('[data-field="SweetName"]').innerText,
+        "Quantity": row.querySelector('[data-field="Quantity"]').innerText,
+        "Status": row.querySelector('[data-field="Status"]').innerText
+      };
+
+      const res = await fetch(`/admin/api/bookings/update`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          BookingID, 
+          field: "Quantity", 
+          value: updatedBooking.Quantity 
+        })
+      });
+
+      const data = await res.json();
+      if(data.success){
+        if(Number(updatedBooking.Quantity) === 0){
+          // Remove row from table instantly
+          row.remove();
+        } else {
+          alert("Booking updated successfully!");
+        }
+      } else {
+        alert("Failed to update booking");
+      }
+    });
+  });
+</script>
+<!-- <script>
+  document.querySelectorAll(".save-btn").forEach(btn => {
+    btn.addEventListener("click", async (e) => {
+      const row = e.target.closest("tr");
+      const BookingID = row.dataset.id;
+
+      const updatedBooking = {
+        "Customer Name": row.querySelector('[data-field="CustomerName"]').innerText,
+        "Customer Phone": row.querySelector('[data-field="CustomerPhone"]').innerText,
+        "Agent Name": row.querySelector('[data-field="AgentName"]').innerText,
+        "Agent Phone": row.querySelector('[data-field="AgentPhone"]').innerText,
+        "Sweet Name": row.querySelector('[data-field="SweetName"]').innerText,
+        "Quantity": row.querySelector('[data-field="Quantity"]').innerText,
+        "Status": row.querySelector('[data-field="Status"]').innerText
+      };
+
+      const res = await fetch(`/admin/update-booking/${BookingID}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedBooking)
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        if(Number(updatedBooking.Quantity) === 0){
+          // Remove row from table instantly
+          row.remove();
+        } else {
+          alert("Booking updated successfully!");
+        }
+      } 
+      
+      else {
+        alert("Failed to update booking");
+      }
+    });
+  });
+</script> -->
